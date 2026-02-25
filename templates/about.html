@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Plant Disease Detection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --green-deep: #1a3a1a;
+            --green-mid: #2d6a2d;
+            --green-light: #4caf50;
+            --green-bright: #76c442;
+            --gold: #c9a84c;
+            --cream: #f5f0e8;
+            --white: #ffffff;
+            --glass: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background-color: var(--green-deep);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 10% 20%, rgba(76,175,80,0.18) 0%, transparent 60%),
+                radial-gradient(ellipse 60% 80% at 90% 80%, rgba(118,196,66,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse 50% 50% at 50% 50%, rgba(45,106,45,0.3) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating leaf particles */
+        .leaf-particle {
+            position: fixed;
+            width: 8px;
+            height: 8px;
+            border-radius: 50% 0 50% 0;
+            background: rgba(118,196,66,0.25);
+            animation: floatLeaf linear infinite;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        @keyframes floatLeaf {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ─── HEADER ─── */
+        header {
+            position: relative;
+            z-index: 10;
+            padding: 48px 40px 32px;
+            text-align: center;
+            border-bottom: 1px solid var(--glass-border);
+            backdrop-filter: blur(10px);
+            background: rgba(10,30,10,0.4);
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            bottom: -18px;
+            transform: translateX(-50%);
+            font-size: 28px;
+            background: var(--green-deep);
+            padding: 0 12px;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 5vw, 48px);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--white) 30%, var(--green-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fadeSlideDown 0.8s ease both;
+        }
+
+        /* ─── NAV ─── */
+        nav {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 28px 20px 20px;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            animation: fadeSlideDown 0.9s ease both;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: rgba(255,255,255,0.75);
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+            padding: 8px 18px;
+            border-radius: 50px;
+            border: 1px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--white);
+            border-color: var(--glass-border);
+            background: var(--glass);
+            letter-spacing: 1.5px;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .content {
+            position: relative;
+            z-index: 10;
+            max-width: 860px;
+            margin: 60px auto 120px;
+            padding: 0 24px;
+            animation: fadeSlideUp 1s ease both;
+        }
+
+        /* Mission Section */
+        .mission-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 48px 44px;
+            backdrop-filter: blur(16px);
+            position: relative;
+            overflow: hidden;
+            margin-bottom: 48px;
+        }
+
+        .mission-card::before {
+            content: '';
+            position: absolute;
+            top: -2px; left: -2px; right: -2px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--green-light), var(--green-bright), var(--gold));
+            border-radius: 20px 20px 0 0;
+        }
+
+        .mission-card .section-label {
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--green-bright);
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .mission-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(26px, 4vw, 38px);
+            font-weight: 700;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .mission-card p {
+            font-size: 17px;
+            line-height: 1.8;
+            color: rgba(255,255,255,0.82);
+            font-weight: 300;
+        }
+
+        /* Stats row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .stat-item {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 24px 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-4px);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .stat-item .stat-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 36px;
+            font-weight: 900;
+            color: var(--green-bright);
+            line-height: 1;
+        }
+
+        .stat-item .stat-label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-top: 6px;
+        }
+
+        /* ─── TEAM ─── */
+        .team-section {
+            margin-top: 10px;
+        }
+
+        .team-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .team-header h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .team-header .divider {
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, var(--glass-border), transparent);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 16px;
+        }
+
+        .member {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 28px 16px 24px;
+            text-align: center;
+            backdrop-filter: blur(12px);
+            transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.35s ease, background 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            animation: fadeSlideUp 1s ease both;
+        }
+
+        .member:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 0 1px rgba(118,196,66,0.3);
+            background: rgba(255,255,255,0.12);
+        }
+
+        .member:nth-child(1) { animation-delay: 0.1s; }
+        .member:nth-child(2) { animation-delay: 0.2s; }
+        .member:nth-child(3) { animation-delay: 0.3s; }
+        .member:nth-child(4) { animation-delay: 0.4s; }
+        .member:nth-child(5) { animation-delay: 0.5s; }
+
+        .member-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-mid), var(--green-bright));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 14px;
+            font-size: 22px;
+            border: 2px solid rgba(118,196,66,0.4);
+            box-shadow: 0 4px 20px rgba(76,175,80,0.3);
+        }
+
+        .member h4 {
+            font-family: 'Playfair Display', serif;
+            font-size: 15px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--white);
+        }
+
+        .member .role {
+            font-size: 11px;
+            color: var(--green-bright);
+            letter-spacing: 0.5px;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+
+        .member-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--green-bright);
+            box-shadow: 0 0 8px var(--green-bright);
+            animation: pulse 2s ease infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.4); }
+        }
+
+        /* ─── FOOTER ─── */
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            z-index: 20;
+            text-align: center;
+            padding: 16px 20px;
+            background: rgba(10,25,10,0.85);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid var(--glass-border);
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            letter-spacing: 0.5px;
+        }
+
+        footer span {
+            color: var(--green-bright);
+        }
+
+        /* ─── ANIMATIONS ─── */
+        @keyframes fadeSlideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeSlideUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 600px) {
+            .stats-row { grid-template-columns: repeat(3, 1fr); gap: 10px; }
+            .mission-card { padding: 32px 24px; }
+            .team-grid { grid-template-columns: repeat(2, 1fr); }
+            .stat-item .stat-number { font-size: 26px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Floating leaf particles -->
+    <div class="leaf-particle" style="left:10%; width:12px;height:12px; animation-duration:14s; animation-delay:0s;"></div>
+    <div class="leaf-particle" style="left:25%; width:6px;height:6px; animation-duration:18s; animation-delay:3s;"></div>
+    <div class="leaf-particle" style="left:60%; width:10px;height:10px; animation-duration:12s; animation-delay:6s;"></div>
+    <div class="leaf-particle" style="left:80%; width:7px;height:7px; animation-duration:16s; animation-delay:1s;"></div>
+    <div class="leaf-particle" style="left:45%; width:9px;height:9px; animation-duration:20s; animation-delay:8s;"></div>
+
+    <header>
+        <h1>About Plant Disease Detection</h1>
+    </header>
+
+    <nav>
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('upload') }}">Upload</a>
+        <a href="{{ url_for('history') }}">History</a>
+        <a href="{{ url_for('about') }}" class="active">About Us</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+    </nav>
+
+    <div class="content">
+
+        <div class="mission-card">
+            <div class="section-label">✦ Our Purpose</div>
+            <h2>Protecting Plants,<br>Empowering Farmers</h2>
+            <p>
+                Plant Disease Detection is an AI-powered application designed to help farmers and plant enthusiasts 
+                identify leaf diseases easily and quickly. Our goal is to enable early detection of diseases, 
+                provide actionable recommendations, and improve plant health for better yield and growth.
+            </p>
+        </div>
+
+        <div class="stats-row">
+            <div class="stat-item">
+                <div class="stat-number">50+</div>
+                <div class="stat-label">Diseases Detected</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Accuracy Rate</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">10K+</div>
+                <div class="stat-label">Scans Done</div>
+            </div>
+        </div>
+
+        <div class="team-section">
+            <div class="team-header">
+                <h3>Meet the Team</h3>
+                <div class="divider"></div>
+            </div>
+
+            <div class="team-grid">
+                <div class="member">
+                    <div class="member-badge"></div>
+                    <div class="member-avatar">👩‍💻</div>
+                    <h4>Rajeshwari</h4>
+                    <div class="role">Project Lead &amp; Developer</div>
+                </div>
+                <div class="member">
+                    <div class="member-badge"></div>
+                    <div class="member-avatar">🤖</div>
+                    <h4>Roshini kathu</h4>
+                    <div class="role">AI Model Specialist</div>
+                </div>
+                <div class="member">
+                    <div class="member-badge"></div>
+                    <div class="member-avatar">🎨</div>
+                    <h4>Vishalini</h4>
+                    <div class="role">Frontend Designer</div>
+                </div>
+                <div class="member">
+                    <div class="member-badge"></div>
+                    <div class="member-avatar">🌱</div>
+                    <h4>Santhakumari</h4>
+                    <div class="role">Plant Biology Expert</div>
+                </div>
+                <div class="member">
+                    <div class="member-badge"></div>
+                    <div class="member-avatar">📊</div>
+                    <h4>Suji</h4>
+                    <div class="role">Data Engineer</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 <span>Plant Disease Detection</span>. All rights reserved.
+    </footer>
+
+    <script>
+        console.log("About Us page loaded");
+    </script>
+</body>
+</html>
